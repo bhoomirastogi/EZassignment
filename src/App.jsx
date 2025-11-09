@@ -14,7 +14,6 @@ function App() {
       <Home />
       <About />
       <Aboutstats />
-     
       <Portfolio />
       <Contact/>
     </>
