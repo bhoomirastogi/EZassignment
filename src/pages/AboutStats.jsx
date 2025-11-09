@@ -1,11 +1,11 @@
 import React from "react";
-import "../styles/AboutStats.css";
+import "../styles/Aboutstats.css";
 import vlogo from "../assets/VFilms Logo.png";
 import cards from "../assets/cards.png";
 import cola from "../assets/cola.png";
 import mountains from "../assets/mountains.png";
 
-export default function AboutStats() {
+export default function Aboutstats() {
   return (
     <section className="aboutstats">
       <img className="aboutstats__logo" src={vlogo} alt="VFilms" />
