@@ -9,10 +9,11 @@ export default function Contact() {
     name: "",
     email: "",
     phone: "",
-    message: ""
+    message: "",
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -32,25 +33,42 @@ export default function Contact() {
       setError("Enter a valid email address.");
       return;
     }
+
+    setLoading(true);
+    setError("");
+    setSuccess("");
+
     try {
-      const res = await fetch("https://vernanbackend.ezlab.in/api/contact-us/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form)
-      });
+      const res = await fetch(
+        "https://vernanbackend.ezlab.in/api/contact-us/",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(form),
+        }
+      );
+
+      const data = await res.json();
+      console.log("API Response:", data);
+
       if (res.status === 200 || res.status === 201) {
-        setSuccess("Form Submitted");
+        setSuccess("Form Submitted ✅");
         setForm({ name: "", email: "", phone: "", message: "" });
+
+        // Optional: Clear success message after 5 seconds
+        setTimeout(() => setSuccess(""), 5000);
       } else {
         setError("Something went wrong. Try again.");
       }
     } catch {
       setError("Network error. Try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <section className="contact"id = "contact">
+    <section className="contact" id="contact">
       <div className="contact__container">
         <div className="contact__left">
           <img className="contact__mandala3" src={mandala3} alt="Mandala 3" />
@@ -58,11 +76,12 @@ export default function Contact() {
           <img className="contact__logo" src={vfilmsLogo} alt="V Films" />
           <h2 className="contact__heading">Join the Story</h2>
           <p className="contact__text">
-            <p>Ready to bring your vision to life? Let’s talk.</p>
-             Whether you have an
-            idea, a question, or simply want to explore how V can work — we’re
-            just a message away. Let’s catch up over coffee. Great stories begin
-            with a good conversation.
+            Ready to bring your vision to life? Let’s talk.
+          </p>
+          <p className="contact__text">
+            Whether you have an idea, a question, or simply want to explore how
+            V can work — we’re just a message away. Let’s catch up over coffee.
+            Great stories begin with a good conversation.
           </p>
         </div>
         <div className="contact__right">
@@ -101,9 +120,17 @@ export default function Contact() {
               className="contact__textarea"
               required
             ></textarea>
-            {error && <p style={{ color: "#cf563e", fontSize: "14px" }}>{error}</p>}
-            {success && <p style={{ color: "#18a058", fontSize: "14px" }}>{success}</p>}
-            <button type="submit" className="contact__btn">Submit</button>
+
+            {error && (
+              <p style={{ color: "#cf563e", fontSize: "14px" }}>{error}</p>
+            )}
+            {success && (
+              <p style={{ color: "#18a058", fontSize: "14px" }}>{success}</p>
+            )}
+
+            <button type="submit" className="contact__btn" disabled={loading}>
+              {loading ? "Submitting..." : "Submit"}
+            </button>
           </form>
         </div>
       </div>
