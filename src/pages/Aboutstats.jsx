@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/Aboutstats.css";
+import "..//styles/AboutStats.css";
 import vlogo from "../assets/VFilms Logo.png";
 import cards from "../assets/cards.png";
 import cola from "../assets/cola.png";
